@@ -5,7 +5,6 @@ import Settings from "./components/settings";
 import "./globals.css";
 
 function App() {
-  // TODO: Add update check
   // TODO: Add song links to thumbnail and title
   // TODO: Add icon
 
