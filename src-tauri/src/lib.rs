@@ -4,6 +4,8 @@ mod tray;
 mod window;
 
 use gsmtc::*;
+use tauri::RunEvent;
+use tauri_plugin_window_state::{AppHandleExt, StateFlags};
 use window::update_settings;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
@@ -25,15 +27,31 @@ pub fn run() {
             change_shuffle_mode
         ])
         .setup(|app| {
+            // Initialize the widget with the stored dimensions
             let preferred_app = store::initialize_window_settings(&app)
                 .expect("Failed to initialize window settings");
 
+            // Start the media session thread
             gsmtc::run(app.handle().clone(), preferred_app).expect("Failed to run gsmtc");
 
+            // Build the system tray
             tray::build_tray(&app).expect("Failed to build tray");
 
             Ok(())
         })
-        .run(tauri::generate_context!())
-        .expect("Error while running tauri application");
+        .build(tauri::generate_context!())
+        .expect("Error while running tauri application")
+        .run(move |app_handle, event| {
+            match &event {
+                RunEvent::ExitRequested { api, code, .. } => {
+                    if code.is_none() {
+                        api.prevent_exit();
+                    }
+                    // Save the window state on exit
+                    app_handle.save_window_state(StateFlags::all()).expect("Failed to save window state");
+                    app_handle.exit(0);
+                }
+                _ => {}
+            }
+        });
 }
