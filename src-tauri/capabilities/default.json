@@ -3,5 +3,5 @@
   "identifier": "default",
   "description": "Default permissions",
   "windows": ["fono", "settings"],
-  "permissions": ["core:default", "opener:default", "core:window:allow-start-dragging", "core:event:allow-listen", "core:webview:allow-internal-toggle-devtools", "store:default", "process:default"]
+  "permissions": ["core:default", "opener:default", "core:window:allow-start-dragging", "core:event:allow-listen", "core:webview:allow-internal-toggle-devtools", "store:default", "process:default", "window-state:default", "autostart:default"]
 }

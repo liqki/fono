@@ -1,4 +1,5 @@
 import { invoke } from "@tauri-apps/api/core";
+import { disable, enable, isEnabled } from "@tauri-apps/plugin-autostart";
 import { relaunch } from "@tauri-apps/plugin-process";
 import { useEffect, useState } from "react";
 import { FaSave } from "react-icons/fa";
@@ -8,15 +9,34 @@ import { store, useSettings } from "../context/settings-context";
 import Input from "./input";
 import Select from "./select";
 import Titlebar from "./title-bar";
+import Toggle from "./toggle";
 
 function Settings() {
   const { settings } = useSettings();
   const [localSettings, setLocalSettings] = useState(settings);
+  const [autoStartEnabled, setAutoStartEnabled] = useState(false);
+
+  useEffect(() => {
+    const fetchAutoStart = async () => {
+      setAutoStartEnabled(await isEnabled());
+    };
+
+    fetchAutoStart();
+  }, [settings]);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks-extra/no-direct-set-state-in-use-effect
     setLocalSettings(settings);
   }, [settings]);
+
+  const handleAutoStartToggle = async (enabled: boolean) => {
+    setAutoStartEnabled(enabled);
+    if (enabled) {
+      await enable();
+      return;
+    }
+    await disable();
+  };
 
   const handleSave = async () => {
     await store.set("settings", localSettings);
@@ -118,6 +138,12 @@ function Settings() {
           {appSettings.map(setting => (
             <Setting key={setting.label} label={setting.label} description={setting.description} value={setting.value} setValue={setting.setValue} type={setting.type} options={setting.options} />
           ))}
+          <Toggle
+            label="Start on Boot"
+            description="Enable this to start the app on system boot."
+            value={autoStartEnabled}
+            onChange={handleAutoStartToggle}
+          />
         </div>
       </main>
     </div>

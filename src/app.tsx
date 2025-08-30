@@ -5,7 +5,7 @@ import Settings from "./components/settings";
 import "./globals.css";
 
 function App() {
-  // TODO: Add start on boot option
+  // TODO: Fix window state not saving on unexpected close
   // TODO: Add update check
   // TODO: Add song links to thumbnail and title
   // TODO: Add icon
