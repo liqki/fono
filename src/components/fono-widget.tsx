@@ -45,14 +45,23 @@ function NowPlaying() {
       setPosition(event.payload.position_ms || 0);
     });
 
-    const interval = setInterval(() => {
-      if (playingRef.current)
-        setPosition(prev => prev + 50);
-    }, 50);
+    let frameId: number;
+    let lastTime = performance.now();
+
+    const update = (time: number) => {
+      if (playingRef.current) {
+        const delta = time - lastTime;
+        lastTime = time;
+        setPosition(prev => prev + delta);
+      }
+      frameId = requestAnimationFrame(update);
+    };
+
+    frameId = requestAnimationFrame(update);
 
     return () => {
       unsubscribe.then(unsub => unsub());
-      clearInterval(interval);
+      cancelAnimationFrame(frameId);
     };
   }, []);
 
