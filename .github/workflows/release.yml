@@ -1,0 +1,55 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  draft_release:
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install frontend dependencies
+        run: bun install
+
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: v__VERSION__
+          releaseName: v__VERSION__
+          releaseDraft: true
+          prerelease: false
+
+  update_release_draft:
+    needs: draft_release
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get version
+        id: app-version
+        uses: martinbeentjes/npm-get-version-action@v1.3.1
+      - name: Update release body
+        uses: release-drafter/release-drafter@v6
+        with:
+          disable-autolabeler: true
+          name: v${{ steps.app-version.outputs.current-version }}
+          tag: v${{ steps.app-version.outputs.current-version }}
+          version: ${{ steps.app-version.outputs.current-version }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

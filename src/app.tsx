@@ -5,7 +5,6 @@ import Settings from "./components/settings";
 import "./globals.css";
 
 function App() {
-  // TODO: Create git repo and start working on individual commits on developing branch
   // TODO: Add start on boot option
   // TODO: Add update check
   // TODO: Add song links to thumbnail and title
