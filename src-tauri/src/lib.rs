@@ -47,12 +47,12 @@ pub fn run() {
                 RunEvent::ExitRequested { api, code, .. } => {
                     if code.is_none() {
                         api.prevent_exit();
+                        // Save the window state on exit
+                        app_handle
+                            .save_window_state(StateFlags::all())
+                            .expect("Failed to save window state");
+                        app_handle.exit(0);
                     }
-                    // Save the window state on exit
-                    app_handle
-                        .save_window_state(StateFlags::all())
-                        .expect("Failed to save window state");
-                    app_handle.exit(0);
                 }
                 _ => {}
             }

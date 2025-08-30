@@ -5,8 +5,6 @@ import Settings from "./components/settings";
 import "./globals.css";
 
 function App() {
-  // TODO: Add icon
-
   return (
     <HashRouter>
       <Routes>
