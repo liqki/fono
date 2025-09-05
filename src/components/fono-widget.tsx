@@ -24,6 +24,7 @@ function NowPlaying() {
   const { settings } = useSettings();
 
   const playingRef = useRef(false);
+  const lastTimeRef = useRef(performance.now());
 
   const formatTitle = () => {
     if (!mediaState?.title)
@@ -46,14 +47,13 @@ function NowPlaying() {
     });
 
     let frameId: number;
-    let lastTime = performance.now();
 
     const update = (time: number) => {
       if (playingRef.current) {
-        const delta = time - lastTime;
-        lastTime = time;
+        const delta = time - lastTimeRef.current;
         setPosition(prev => prev + delta);
       }
+      lastTimeRef.current = time;
       frameId = requestAnimationFrame(update);
     };
 
@@ -64,6 +64,12 @@ function NowPlaying() {
       cancelAnimationFrame(frameId);
     };
   }, []);
+
+  useEffect(() => {
+    if (mediaState?.playing) {
+      lastTimeRef.current = performance.now();
+    }
+  }, [mediaState?.playing]);
 
   return (
     <main
