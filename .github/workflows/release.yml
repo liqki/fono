@@ -43,9 +43,12 @@ jobs:
       contents: write
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v5
+
       - name: Get version
         id: app-version
         uses: martinbeentjes/npm-get-version-action@v1.3.1
+
       - name: Update release body
         uses: release-drafter/release-drafter@v6
         with:

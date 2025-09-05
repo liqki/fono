@@ -1,6 +1,6 @@
 [package]
 name = "fono"
-version = "1.0.0"
+version = "1.0.1"
 description = "Display the currently playing media using windows media session"
 authors = [ "liqki <contact@liqki.de>" ]
 edition = "2021"
