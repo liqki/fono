@@ -1,0 +1,28 @@
+name: Update Release Notes
+
+on:
+  push:
+    branches:
+      - development
+
+jobs:
+  update_release_draft:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Get version
+        id: app-version
+        uses: martinbeentjes/npm-get-version-action@v1.3.1
+
+      - name: Update release body
+        uses: release-drafter/release-drafter@v6
+        with:
+          disable-autolabeler: true
+          name: v${{ steps.app-version.outputs.current-version }}
+          tag: v${{ steps.app-version.outputs.current-version }}
+          version: ${{ steps.app-version.outputs.current-version }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
