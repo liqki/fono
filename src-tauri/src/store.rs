@@ -17,7 +17,8 @@ pub fn initialize_window_settings(app: &tauri::App) -> Result<String, tauri_plug
     let app_handle = app.handle().clone();
     let json_value: Option<JsonValue> = store.get("settings");
     if let Some(json_value) = json_value {
-        let settings: Settings = serde_json::from_value(json_value).expect("Failed to parse settings");
+        let settings: Settings =
+            serde_json::from_value(json_value).expect("Failed to parse settings");
         window::apply_window_settings(
             &app_handle,
             settings.mode.unwrap_or_else(|| "overlay".into()),

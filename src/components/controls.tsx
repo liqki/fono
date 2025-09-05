@@ -39,7 +39,7 @@ function Controls({ isPlaying, duration, currentTime, repeat, shuffle, iconStyle
       </div>
       <div className="h-2 w-full relative">
         <div className="h-1 w-full rounded-full overflow-hidden absolute bottom-0" style={{ backgroundColor: settings.backgroundColor }}>
-          <div className="h-full" style={{ backgroundColor: settings.textColor, width: `${(currentTime / duration) * 100}%` }} />
+          <div className="h-full transition-[width] duration-[30ms]" style={{ backgroundColor: settings.textColor, width: `${(currentTime / duration) * 100}%` }} />
         </div>
       </div>
     </div>
