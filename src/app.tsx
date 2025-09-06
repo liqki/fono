@@ -1,10 +1,16 @@
+import { useEffect } from "react";
 import { HashRouter, Route, Routes } from "react-router";
 
 import NowPlaying from "./components/fono-widget";
-import Settings from "./components/settings";
 import "./globals.css";
+import Settings from "./components/settings";
+import { checkForUpdates } from "./util/updater";
 
 function App() {
+  useEffect(() => {
+    checkForUpdates();
+  }, []);
+
   return (
     <HashRouter>
       <Routes>

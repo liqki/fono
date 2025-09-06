@@ -11,7 +11,7 @@ export default antfu(
       semi: true,
       quotes: "double",
     },
-    ignores: ["src-tauri/target", "src-tauri/gen", ".gitignore", "src-tauri/.gitignore", ".husky", "**/*.png", "**/*.rs"],
+    ignores: ["src-tauri/target", "src-tauri/gen", ".gitignore", "src-tauri/.gitignore", ".husky", "**/*.png"],
   },
   {
     rules: {
