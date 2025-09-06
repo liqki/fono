@@ -12,6 +12,7 @@ export type Settings = {
   width: number;
   height: number;
   preferred_app: string;
+  lockWidget: boolean;
 };
 
 type SettingsContextType = {

@@ -15,6 +15,7 @@ const defaultSettings: Settings = {
   width: 200,
   height: 300,
   preferred_app: "spotify",
+  lockWidget: false,
 };
 
 export function SettingsProvider({ children }: { children: React.ReactNode }) {

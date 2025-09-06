@@ -73,11 +73,11 @@ function NowPlaying() {
 
   return (
     <main
-      data-tauri-drag-region
+      data-tauri-drag-region={!settings.lockWidget}
       className="w-screen h-screen p-2 overflow-hidden box-border select-none group"
       style={{ backgroundColor: settings.backgroundColor, color: settings.textColor, borderRadius: settings.borderRadius }}
     >
-      <div data-tauri-drag-region className={`w-full h-full flex gap-1 ${settings.alignment === "horizontal" ? "flex-row" : "flex-col"}`}>
+      <div data-tauri-drag-region={!settings.lockWidget} className={`w-full h-full flex gap-1 ${settings.alignment === "horizontal" ? "flex-row" : "flex-col"}`}>
         {mediaState?.app_id
           ? (
               <>
@@ -87,8 +87,8 @@ function NowPlaying() {
                   src={`data:image/png;base64,${mediaState.thumbnail}`}
                   onDragStart={e => e.preventDefault()}
                 />
-                <div data-tauri-drag-region className={`flex-1 flex flex-col justify-between items-center ${settings.alignment === "vertical" ? "gap-2" : null}`}>
-                  <div data-tauri-drag-region className="flex flex-col justify-center items-center">
+                <div data-tauri-drag-region={!settings.lockWidget} className={`flex-1 flex flex-col justify-between items-center ${settings.alignment === "vertical" ? "gap-2" : null}`}>
+                  <div data-tauri-drag-region={!settings.lockWidget} className="flex flex-col justify-center items-center">
                     <p className="font-semibold truncate max-w-56 hover:cursor-pointer hover:underline">{formatTitle()}</p>
                     <p className={`max-w-56 truncate text-sm ${settings.alignment === "vertical" ? "px-4" : null}`}>{mediaState.artist}</p>
                   </div>
