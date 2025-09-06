@@ -24,7 +24,7 @@ fono is a simple, yet customizable widget to display the currently playing media
 - [x] Use as an overlay (as seen in the first screenshot) or a desktop widget
 - [x] Highly customizable appearance
 - [x] Auto start with Windows
-- [ ] Dynamic theming based on album art (coming soon)
+- [x] Dynamic theming based on album art (using [ColorThief](https://lokeshdhakar.com/projects/color-thief/))
 
 ## Usage
 
@@ -46,20 +46,22 @@ The settings are saved by clicking the save icon in the top right corner. Some s
 
 #### Options
 
-| Setting          | Type    | Description                                                                                                    |
-| ---------------- | ------- | -------------------------------------------------------------------------------------------------------------- |
-| Mode             | Select  | Determines if the widget is display above or below all other apps.                                             |
-| Alignment        | Select  | Determines if the widget is displayed horizontally or vertically.                                              |
-| Background Color | Hex     | The background color of the widget. The opacity can be specified after the hex code (f.e. #FFFFFF20).          |
-| Text Color       | Hex     | The text color used for the widget.                                                                            |
-| Primary Color    | Hex     | The color used for the repeat mode and shuffle icons.                                                          |
-| Border Radius    | Number  | The border radius of the widget.                                                                               |
-| Width            | Number  | The width of the widget.                                                                                       |
-| Height           | Number  | The height of the widget.                                                                                      |
-| Icon Style       | Select  | The style of the icons displayed in the widget. None means no icons will be displayed.                         |
-| Preferred App    | Text    | The app to prioritize if there is more than one media session. This setting requires a restart to take effect. |
-| Lock Widget      | Boolean | Whether the widget should be locked in place and not draggable.                                                |
-| Auto Start       | Boolean | Whether fono should automatically start with Windows. This setting requires a restart to take effect.          |
+| Setting            | Type    | Description                                                                                                    |
+| ------------------ | ------- | -------------------------------------------------------------------------------------------------------------- |
+| Mode               | Select  | Determines if the widget is display above or below all other apps.                                             |
+| Alignment          | Select  | Determines if the widget is displayed horizontally or vertically.                                              |
+| Background Color   | Hex     | The background color of the widget.                                                                            |
+| Background Opacity | Number  | The opacity of the background color (0-100).                                                                   |
+| Text Color         | Hex     | The text color used for the widget.                                                                            |
+| Primary Color      | Hex     | The color used for the repeat mode and shuffle icons.                                                          |
+| Border Radius      | Number  | The border radius of the widget.                                                                               |
+| Width              | Number  | The width of the widget.                                                                                       |
+| Height             | Number  | The height of the widget.                                                                                      |
+| Icon Style         | Select  | The style of the icons displayed in the widget. None means no icons will be displayed.                         |
+| Preferred App      | Text    | The app to prioritize if there is more than one media session. This setting requires a restart to take effect. |
+| Dynamic Theme      | Boolean | Whether the widget should adapt its colors based on the album art.                                             |
+| Lock Widget        | Boolean | Whether the widget should be locked in place and not draggable.                                                |
+| Auto Start         | Boolean | Whether fono should automatically start with Windows. This setting requires a restart to take effect.          |
 
 ## Contributing
 
