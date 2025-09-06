@@ -78,7 +78,7 @@ function NowPlaying() {
       style={{ backgroundColor: settings.backgroundColor, color: settings.textColor, borderRadius: settings.borderRadius }}
     >
       <div data-tauri-drag-region className={`w-full h-full flex gap-1 ${settings.alignment === "horizontal" ? "flex-row" : "flex-col"}`}>
-        {mediaState
+        {mediaState?.app_id
           ? (
               <>
                 <img
