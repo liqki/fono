@@ -63,22 +63,31 @@ function Settings() {
     options: ["Horizontal", "Vertical"],
   }, {
     label: "Background Color",
-    description: "The background color of the widget. The opacity can be specified after the hex code (f.e. #FFFFFF20).",
+    description: "The background color of the widget.",
     value: localSettings.backgroundColor,
     setValue: value => setLocalSettings(prev => ({ ...prev, backgroundColor: String(value) })),
     type: "text",
+    disabled: localSettings.dynamicTheme,
+  }, {
+    label: "Background Opacity",
+    description: "The opacity of the background color.",
+    value: localSettings.backgroundOpacity,
+    setValue: value => setLocalSettings(prev => ({ ...prev, backgroundOpacity: Number(value) })),
+    type: "number",
   }, {
     label: "Text Color",
     description: "The text color used for the widget.",
     value: localSettings.textColor,
     setValue: value => setLocalSettings(prev => ({ ...prev, textColor: String(value) })),
     type: "text",
+    disabled: localSettings.dynamicTheme,
   }, {
     label: "Primary Color",
     description: "The color used for the repeat mode and shuffle icons.",
     value: localSettings.primaryColor,
     setValue: value => setLocalSettings(prev => ({ ...prev, primaryColor: String(value) })),
     type: "text",
+    disabled: localSettings.dynamicTheme,
   }, {
     label: "Border Radius",
     description: "The border radius of the widget.",
@@ -135,9 +144,25 @@ function Settings() {
           </button>
         </div>
         <div className="overflow-y-scroll scrollbar-thumb-gray-400 scrollbar-track-gray-900 scrollbar-thin h-full flex flex-col gap-4 px-2 pb-2">
-          {appSettings.map(setting => (
-            <Setting key={setting.label} label={setting.label} description={setting.description} value={setting.value} setValue={setting.setValue} type={setting.type} options={setting.options} />
-          ))}
+          {appSettings.map((setting) => {
+            if (setting.disabled)
+              return null;
+            return (
+              <Setting key={setting.label} label={setting.label} description={setting.description} value={setting.value} setValue={setting.setValue} type={setting.type} options={setting.options} />
+            );
+          })}
+          <Toggle
+            label="Dynamic Theme"
+            description="Enable this to adapt the widget's colors based on the album art. The other color settings will be disabled."
+            value={localSettings.dynamicTheme}
+            onChange={value => setLocalSettings(prev => ({ ...prev, dynamicTheme: value }))}
+          />
+          <Toggle
+            label="Lock Widget"
+            description="Enable this to prevent the widget from being moved."
+            value={localSettings.lockWidget}
+            onChange={value => setLocalSettings(prev => ({ ...prev, lockWidget: value }))}
+          />
           <Toggle
             label="Start on Boot"
             description="Enable this to start the app on system boot."
@@ -159,6 +184,7 @@ type SettingProps = {
   setValue: (value: string | number) => void;
   type: "text" | "number" | "select";
   options?: string[];
+  disabled?: boolean;
 };
 
 function Setting({ label, description, value, setValue, type, options }: SettingProps) {

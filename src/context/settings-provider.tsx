@@ -7,7 +7,8 @@ import { SettingsContext, store } from "./settings-context";
 const defaultSettings: Settings = {
   mode: "overlay",
   alignment: "vertical",
-  backgroundColor: "#ffffff20",
+  backgroundColor: "#ffffff",
+  backgroundOpacity: 20,
   textColor: "#ffffff",
   primaryColor: "#05df72",
   borderRadius: 6,
@@ -15,6 +16,8 @@ const defaultSettings: Settings = {
   width: 200,
   height: 300,
   preferred_app: "spotify",
+  dynamicTheme: false,
+  lockWidget: false,
 };
 
 export function SettingsProvider({ children }: { children: React.ReactNode }) {

@@ -5,6 +5,7 @@ export type Settings = {
   mode: "overlay" | "widget";
   alignment: "horizontal" | "vertical";
   backgroundColor: string;
+  backgroundOpacity: number;
   textColor: string;
   primaryColor: string;
   borderRadius: number;
@@ -12,6 +13,8 @@ export type Settings = {
   width: number;
   height: number;
   preferred_app: string;
+  dynamicTheme: boolean;
+  lockWidget: boolean;
 };
 
 type SettingsContextType = {
