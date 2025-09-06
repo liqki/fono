@@ -2,6 +2,7 @@ import { listen } from "@tauri-apps/api/event";
 import { useEffect, useRef, useState } from "react";
 
 import { useSettings } from "../context/settings-context";
+import { getThemeColor, useDynamicTheme } from "../util/dynamic-theme";
 import Controls from "./controls";
 
 type MediaState = {
@@ -25,6 +26,9 @@ function NowPlaying() {
 
   const playingRef = useRef(false);
   const lastTimeRef = useRef(performance.now());
+
+  const imgRef = useRef<HTMLImageElement>(null);
+  const { colors } = useDynamicTheme(imgRef);
 
   const formatTitle = () => {
     if (!mediaState?.title)
@@ -75,13 +79,14 @@ function NowPlaying() {
     <main
       data-tauri-drag-region={!settings.lockWidget}
       className="w-screen h-screen p-2 overflow-hidden box-border select-none group"
-      style={{ backgroundColor: settings.backgroundColor, color: settings.textColor, borderRadius: settings.borderRadius }}
+      style={{ backgroundColor: `${getThemeColor(settings.backgroundColor, colors?.background, settings.dynamicTheme)}${settings.backgroundOpacity >= 100 ? "" : settings.backgroundOpacity === 0 ? "00" : settings.backgroundOpacity}`, color: getThemeColor(settings.textColor, colors?.text, settings.dynamicTheme), borderRadius: settings.borderRadius }}
     >
       <div data-tauri-drag-region={!settings.lockWidget} className={`w-full h-full flex gap-1 ${settings.alignment === "horizontal" ? "flex-row" : "flex-col"}`}>
         {mediaState?.app_id
           ? (
               <>
                 <img
+                  ref={imgRef}
                   className={`aspect-square hover:cursor-pointer hover:scale-[1.01] transition-transform ${settings.alignment === "vertical" ? "w-full" : "h-full"}`}
                   style={{ borderRadius: settings.borderRadius }}
                   src={`data:image/png;base64,${mediaState.thumbnail}`}
@@ -99,6 +104,7 @@ function NowPlaying() {
                     repeat={mediaState.repeat_mode || "off"}
                     shuffle={mediaState.shuffle || false}
                     iconStyle={settings.iconStyle}
+                    dynamicColors={colors}
                   />
                 </div>
               </>
