@@ -139,6 +139,12 @@ function Settings() {
             <Setting key={setting.label} label={setting.label} description={setting.description} value={setting.value} setValue={setting.setValue} type={setting.type} options={setting.options} />
           ))}
           <Toggle
+            label="Lock Widget"
+            description="Enable this to prevent the widget from being moved."
+            value={localSettings.lockWidget}
+            onChange={value => setLocalSettings(prev => ({ ...prev, lockWidget: value }))}
+          />
+          <Toggle
             label="Start on Boot"
             description="Enable this to start the app on system boot."
             value={autoStartEnabled}

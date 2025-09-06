@@ -58,6 +58,7 @@ The settings are saved by clicking the save icon in the top right corner. Some s
 | Height           | Number  | The height of the widget.                                                                                      |
 | Icon Style       | Select  | The style of the icons displayed in the widget. None means no icons will be displayed.                         |
 | Preferred App    | Text    | The app to prioritize if there is more than one media session. This setting requires a restart to take effect. |
+| Lock Widget      | Boolean | Whether the widget should be locked in place and not draggable.                                                |
 | Auto Start       | Boolean | Whether fono should automatically start with Windows. This setting requires a restart to take effect.          |
 
 ## Contributing
