@@ -20,6 +20,13 @@ type ControlsProps = {
 function Controls({ isPlaying, duration, currentTime, repeat, shuffle, iconStyle, dynamicColors }: ControlsProps) {
   const { settings } = useSettings();
 
+  function getIconColor(active: boolean) {
+    if (active) {
+      return getThemeColor(settings.primaryColor, dynamicColors?.primary, settings.dynamicTheme);
+    }
+    return getThemeColor(settings.textColor, dynamicColors?.text, settings.dynamicTheme);
+  }
+
   return (
     <div className="w-full flex flex-col items-center gap-[2px]">
       <div className={`${settings.iconStyle === "none" ? "hidden" : "flex justify-between w-full items-center"}`}>
@@ -29,9 +36,7 @@ function Controls({ isPlaying, duration, currentTime, repeat, shuffle, iconStyle
             : (
                 <TbRepeat
                   className="w-6"
-                  style={{ color: repeat === "context"
-                    ? getThemeColor(settings.primaryColor, dynamicColors?.primary, settings.dynamicTheme)
-                    : getThemeColor(settings.textColor, dynamicColors?.text, settings.dynamicTheme) }}
+                  style={{ color: getIconColor(repeat !== "off") }}
                 />
               )}
         </div>
@@ -46,7 +51,7 @@ function Controls({ isPlaying, duration, currentTime, repeat, shuffle, iconStyle
               )}
           <Icon name="skipEnd" variant={iconStyle} className="text-2xl" onClick={() => invoke("skip_next")} />
         </div>
-        <TbArrowsShuffle className="w-6" style={{ color: shuffle ? settings.dynamicTheme ? dynamicColors?.primary : settings.primaryColor : settings.textColor }} onClick={() => invoke("change_shuffle_mode")} />
+        <TbArrowsShuffle className="w-6" style={{ color: getIconColor(shuffle) }} onClick={() => invoke("change_shuffle_mode")} />
       </div>
       <div className="h-2 w-full relative">
         <div className="h-1 w-full rounded-full overflow-hidden absolute bottom-0" style={{ backgroundColor: getThemeColor(settings.backgroundColor, dynamicColors?.background, settings.dynamicTheme) }}>
