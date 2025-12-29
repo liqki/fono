@@ -28,8 +28,7 @@ function NowPlaying() {
   const playingRef = useRef(false);
   const lastTimeRef = useRef(performance.now());
 
-  const imgRef = useRef<HTMLImageElement>(null);
-  const { colors } = useDynamicTheme(imgRef);
+  const { colors, imgRef } = useDynamicTheme();
 
   const formatTitle = () => {
     if (!mediaState?.title)
@@ -106,6 +105,7 @@ function NowPlaying() {
           ? (
               <>
                 <img
+                  key={mediaState.thumbnail}
                   ref={imgRef}
                   className={`aspect-square hover:cursor-pointer hover:scale-[1.01] transition-transform ${settings.alignment === "vertical" ? "w-full" : "h-full"}`}
                   style={{ borderRadius: settings.borderRadius }}

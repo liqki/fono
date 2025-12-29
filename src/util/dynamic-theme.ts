@@ -1,7 +1,5 @@
-import type { RefObject } from "react";
-
 import ColorThief from "colorthief";
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 
 import { useSettings } from "../context/settings-context";
 
@@ -56,30 +54,23 @@ function getPrimaryColor(palette: RGB[], background: RGB, text: RGB): RGB {
   return bestColor;
 }
 
-export function useDynamicTheme(
-  imgRef: RefObject<HTMLImageElement | null>,
-): { colors: DynamicColors | null } {
+export function useDynamicTheme(): { colors: DynamicColors | null; imgRef: (node: HTMLImageElement | null) => void } {
   const [colors, setColors] = useState<DynamicColors | null>(null);
   const { settings } = useSettings();
 
-  useEffect(() => {
-    if (!settings.dynamicTheme) {
-      // eslint-disable-next-line react-hooks-extra/no-direct-set-state-in-use-effect
+  const refCallback = useCallback((node: HTMLImageElement | null) => {
+    if (!node || !settings.dynamicTheme) {
       setColors(null);
       return;
     }
 
-    const img = imgRef.current;
-    if (!img)
-      return;
-
-    const handleLoad = () => {
+    const applyColors = () => {
       try {
         const colorThief = new ColorThief();
-        const palette = colorThief.getPalette(img) as RGB[];
-        const dominant = colorThief.getColor(img) as RGB;
+        const palette = colorThief.getPalette(node) as RGB[];
+        const dominant = colorThief.getColor(node) as RGB;
         const text = getTextColor(dominant);
-        // eslint-disable-next-line react-hooks-extra/no-direct-set-state-in-use-effect
+
         setColors({
           background: rgbToHex(dominant),
           primary: rgbToHex(getPrimaryColor(palette, dominant, text)),
@@ -87,21 +78,19 @@ export function useDynamicTheme(
         });
       }
       catch {
-        // eslint-disable-next-line react-hooks-extra/no-direct-set-state-in-use-effect
         setColors(null);
       }
     };
 
-    if (img.complete && img.naturalWidth > 0) {
-      handleLoad();
+    if (node.complete && node.naturalWidth > 0) {
+      applyColors();
     }
     else {
-      img.addEventListener("load", handleLoad);
-      return () => img.removeEventListener("load", handleLoad);
+      node.addEventListener("load", applyColors, { once: true });
     }
-  }, [imgRef, imgRef.current?.src, settings.dynamicTheme]);
+  }, [settings.dynamicTheme]);
 
-  return { colors };
+  return { colors, imgRef: refCallback };
 }
 
 export function getThemeColor(settingsColor: string, dynamicColor: string | undefined, dynamicTheme: boolean): string {
