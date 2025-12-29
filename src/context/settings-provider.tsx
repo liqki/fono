@@ -18,6 +18,7 @@ const defaultSettings: Settings = {
   preferred_app: "spotify",
   dynamicTheme: false,
   lockWidget: false,
+  hideWhenInactive: false,
 };
 
 export function SettingsProvider({ children }: { children: React.ReactNode }) {

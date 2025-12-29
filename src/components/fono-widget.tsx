@@ -1,4 +1,5 @@
 import { listen } from "@tauri-apps/api/event";
+import { getCurrentWindow } from "@tauri-apps/api/window";
 import { useEffect, useRef, useState } from "react";
 
 import { useSettings } from "../context/settings-context";
@@ -45,7 +46,7 @@ function NowPlaying() {
   }, [mediaState?.playing]);
 
   useEffect(() => {
-    const unsubscribe = listen<MediaState>("gsmtc_update", (event) => {
+    const unsubscribe = listen<MediaState>("gsmtc_update", async (event) => {
       setMediaState(event.payload);
       setPosition(event.payload.position_ms || 0);
     });
@@ -75,6 +76,25 @@ function NowPlaying() {
     }
   }, [mediaState?.playing]);
 
+  useEffect(() => {
+    const handleVisibility = async () => {
+      const window = getCurrentWindow();
+      if (settings.hideWhenInactive) {
+        if (mediaState?.app_id) {
+          await window.show();
+        }
+        else {
+          await window.hide();
+        }
+      }
+      else {
+        await window.show();
+      }
+    };
+
+    handleVisibility();
+  }, [mediaState?.app_id, settings.hideWhenInactive]);
+
   return (
     <main
       data-tauri-drag-region={!settings.lockWidget}
@@ -82,7 +102,7 @@ function NowPlaying() {
       style={{ backgroundColor: `${getThemeColor(settings.backgroundColor, colors?.background, settings.dynamicTheme)}${settings.backgroundOpacity >= 100 ? "" : settings.backgroundOpacity === 0 ? "00" : settings.backgroundOpacity}`, color: getThemeColor(settings.textColor, colors?.text, settings.dynamicTheme), borderRadius: settings.borderRadius }}
     >
       <div data-tauri-drag-region={!settings.lockWidget} className={`w-full h-full flex gap-1 ${settings.alignment === "horizontal" ? "flex-row" : "flex-col"}`}>
-        {mediaState?.app_id
+        {mediaState?.title
           ? (
               <>
                 <img
