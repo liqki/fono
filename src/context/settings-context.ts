@@ -15,6 +15,7 @@ export type Settings = {
   preferred_app: string;
   dynamicTheme: boolean;
   lockWidget: boolean;
+  hideWhenInactive: boolean;
 };
 
 type SettingsContextType = {

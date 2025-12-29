@@ -49,7 +49,7 @@ function Settings() {
 
   const appSettings: SettingProps[] = [{
     label: "Mode",
-    description: "Determines if the widget is display above or below all other apps.",
+    description: "Determines if the widget is displayed above or below all other apps.",
     value: localSettings.mode,
     setValue: value => setLocalSettings(prev => ({ ...prev, mode: value as "overlay" | "widget" })),
     type: "select",
@@ -70,7 +70,7 @@ function Settings() {
     disabled: localSettings.dynamicTheme,
   }, {
     label: "Background Opacity",
-    description: "The opacity of the background color.",
+    description: "The background opacity of the widget.",
     value: localSettings.backgroundOpacity,
     setValue: value => setLocalSettings(prev => ({ ...prev, backgroundOpacity: Number(value) })),
     type: "number",
@@ -108,7 +108,7 @@ function Settings() {
     type: "number",
   }, {
     label: "Icon Style",
-    description: "The style of the icons displayed in the widget. None means no icons will be displayed.",
+    description: "The icon style used in the widget. None means no icons will be displayed.",
     value: localSettings.iconStyle,
     setValue: value => setLocalSettings(prev => ({ ...prev, iconStyle: value as "filled" | "outline" | "none" })),
     type: "select",
@@ -168,6 +168,12 @@ function Settings() {
             description="Enable this to start the app on system boot."
             value={autoStartEnabled}
             onChange={handleAutoStartToggle}
+          />
+          <Toggle
+            label="Hide When Inactive"
+            description="Enable this to hide the widget when there is no active media session."
+            value={localSettings.hideWhenInactive}
+            onChange={value => setLocalSettings(prev => ({ ...prev, hideWhenInactive: value }))}
           />
         </div>
       </main>
