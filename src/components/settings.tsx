@@ -169,6 +169,12 @@ function Settings() {
             value={autoStartEnabled}
             onChange={handleAutoStartToggle}
           />
+          <Toggle
+            label="Hide When Inactive"
+            description="Enable this to hide the widget when there is no active media session."
+            value={localSettings.hideWhenInactive}
+            onChange={value => setLocalSettings(prev => ({ ...prev, hideWhenInactive: value }))}
+          />
         </div>
       </main>
     </div>

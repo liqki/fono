@@ -10,6 +10,8 @@
     "core:default",
     "opener:default",
     "core:window:allow-start-dragging",
+    "core:window:allow-hide",
+    "core:window:allow-show",
     "core:event:allow-listen",
     "core:webview:allow-internal-toggle-devtools",
     "store:default",
