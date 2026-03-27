@@ -12,6 +12,7 @@ dist
 dist-ssr
 *.local
 *.lock
+!bun.lock
 
 # Editor directories and files
 .vscode/*
@@ -26,3 +27,4 @@ dist-ssr
 *.sw?
 .tauri
 app-icon.png
+.eslintcache

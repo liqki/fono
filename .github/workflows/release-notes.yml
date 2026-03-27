@@ -3,7 +3,7 @@ name: Update Release Notes
 on:
   push:
     branches:
-      - development
+      - develop
 
 jobs:
   update_release_draft:
